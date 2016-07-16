@@ -826,4 +826,89 @@ describe('Listing files', function(){
             callback: callbackFn
         });
     });
+    it('Should return error when using pattern %_', function(done){
+        var callbackFn = function(err, files){
+            expect(err).to.not.be.a('null');
+            expect(err).to.not.be.a('undefined');
+            expect(files).to.be.a('null');
+
+            expect(err.message).to.be.equal('Cannot use % token beside of any other wildcard token');
+
+            done();
+        };
+
+        fileResolver.list({
+            basedir: './resources/different_names',
+            name: { include: '%_' },
+            callback: callbackFn
+        });
+    });
+    it('Should return error when using pattern _%', function(done){
+        var callbackFn = function(err, files){
+            expect(err).to.not.be.a('null');
+            expect(err).to.not.be.a('undefined');
+            expect(files).to.be.a('null');
+
+            expect(err.message).to.be.equal('Cannot use % token beside of any other wildcard token');
+
+            done();
+        };
+
+        fileResolver.list({
+            basedir: './resources/different_names',
+            name: { include: '_%' },
+            callback: callbackFn
+        });
+    });
+    it('Should return error when using pattern %%', function(done){
+        var callbackFn = function(err, files){
+            expect(err).to.not.be.a('null');
+            expect(err).to.not.be.a('undefined');
+            expect(files).to.be.a('null');
+
+            expect(err.message).to.be.equal('Cannot use % token beside of any other wildcard token');
+
+            done();
+        };
+
+        fileResolver.list({
+            basedir: './resources/different_names',
+            name: { include: '%%' },
+            callback: callbackFn
+        });
+    });
+    it('Should return error when using pattern %%%', function(done){
+        var callbackFn = function(err, files){
+            expect(err).to.not.be.a('null');
+            expect(err).to.not.be.a('undefined');
+            expect(files).to.be.a('null');
+
+            expect(err.message).to.be.equal('Cannot use % token beside of any other wildcard token');
+
+            done();
+        };
+
+        fileResolver.list({
+            basedir: './resources/different_names',
+            name: { include: '%%%' },
+            callback: callbackFn
+        });
+    });
+    it('Should return error when using pattern _%_', function(done){
+        var callbackFn = function(err, files){
+            expect(err).to.not.be.a('null');
+            expect(err).to.not.be.a('undefined');
+            expect(files).to.be.a('null');
+
+            expect(err.message).to.be.equal('Cannot use % token beside of any other wildcard token');
+
+            done();
+        };
+
+        fileResolver.list({
+            basedir: './resources/different_names',
+            name: { include: '_%_' },
+            callback: callbackFn
+        });
+    });
 });

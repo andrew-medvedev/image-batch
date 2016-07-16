@@ -9,16 +9,19 @@ var async = require('async'),
 
 var app = require('../app/app.js');
 
-describe('File resolver contract', function(){
+describe('Pattern matcher contract', function(){
+    require('./patternMatcher-contract.js');
+});
+describe.skip('File resolver contract', function(){
     require('./fileResolver-contract.js');
 });
-describe('Directive builder contract', function(){
+describe.skip('Directive builder contract', function(){
     require('./directiveBuilder-contract.js');
 });
-describe('Filename resolver contract', function(){
+describe.skip('Filename resolver contract', function(){
     require('./filenameResolver-contract.js');
 });
-describe('Doing job', function(){
+describe.skip('Doing job', function(){
     it('Should do job with jpg\'s don\'t touch originals', function(done){
         var callbackFn = function(err){
             expect(err).to.be.a('null');

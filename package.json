@@ -1,6 +1,6 @@
 {
   "name": "recursive-resize",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,9 @@
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "fs-extra": "^0.30.0",
+    "jimp": "^0.2.24",
     "recursive-readdir": "^2.0.0",
-    "sharp": "^0.15.0"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
