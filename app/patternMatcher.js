@@ -5,7 +5,8 @@
 'use strict';
 
 module.exports = {
-    match: match
+    match: match,
+    getAllIndexesOfSubstring: getAllIndexesOfSubstring
 };
 
 var _ = require('underscore');
@@ -18,12 +19,11 @@ const PATTERN_TOKEN_TYPE_ANY_ONE = 1,
     PATTERN_TOKEN_TYPE_EXACT_CHARS = 3;
 
 function match(subject, pattern, callback){
-    var patternBuilt = [],
-        i, itoken = 0;
+    var patternBuilt = [];
 
     function buildPattern(){
         var charsFlag = false,
-            charsBuffer = '';
+            i, charsBuffer = '';
         for(i = 0 ; i < pattern.length ; i++){
             var patternChar = pattern[i];
             switch(patternChar){
@@ -56,72 +56,85 @@ function match(subject, pattern, callback){
                     charsBuffer += patternChar;
             }
         }
+        if(charsFlag){
+            patternBuilt.push({ type: PATTERN_TOKEN_TYPE_EXACT_CHARS, chars: charsBuffer });
+        }
 
-        i = 0;
-        nextToken();
+        callback(null, nextToken(0, 0));
     }
-    function nextToken(){
-        var currentToken = patternBuilt[itoken++];
-        if(currentToken){
+    function nextToken(subjectIndex, patternIndex){
+        var currentToken = patternBuilt[patternIndex++];
+        if(!_.isUndefined(currentToken)){
             switch(currentToken.type){
                 case PATTERN_TOKEN_TYPE_ANY_ONE:
-                    checkAnyOne();
-                    break;
+                    return checkAnyOne(subjectIndex, patternIndex);
                 case PATTERN_TOKEN_TYPE_ANY_MANY:
-                    checkAnyMany();
-                    break;
+                    return checkAnyMany(subjectIndex, patternIndex);
                 case PATTERN_TOKEN_TYPE_EXACT_CHARS:
-                    checkExactChars(currentToken);
-                    break;
+                    return checkExactChars(subjectIndex, patternIndex, currentToken);
             }
-        } else if(subject[i] === null){
-            callback(null, true);
         } else {
-            callback(new Error('WTF?'), false);
+            return _.isUndefined(subject[subjectIndex]);
         }
     }
-    function checkAnyOne(){
-        var nextChar = subject[i++];
-        if(nextChar){
-            nextToken();
+    function checkAnyOne(subjectIndex, patternIndex){
+        var nextChar = subject[subjectIndex++];
+        if(!_.isUndefined(nextChar)){
+            return nextToken(subjectIndex, patternIndex);
         } else {
-            callback(null, false);
+            return false;
         }
     }
-    function checkAnyMany(){
-        var charsToken = patternBuilt[itoken++];
-        if(charsToken){
-            var nextTokenMatchScore = 0,
-                nextChar, currentTokenPass = false;
-            while(true){
-                nextChar = subject[i++];
-                if(nextChar){
-                    if(charsToken.chars[nextTokenMatchScore] === nextChar){
-                        if(++nextTokenMatchScore === charsToken.chars.length){
-                            if(!currentTokenPass){
-                                return callback(null, false);
-                            } else {
-                                return nextToken();
-                            }
-                        }
+    function checkAnyMany(subjectIndex, patternIndex){
+        var theNextToken = patternBuilt[patternIndex++];
+        if(!_.isUndefined(theNextToken)){
+            var nextTokenIndexes = getAllIndexesOfSubstring(subject, subjectIndex + 1, theNextToken.chars);
+
+            if(nextTokenIndexes.length === 0){
+                return false;
+            } else {
+                for(var i = 0; i < nextTokenIndexes.length ; i++){
+                    var branchResult = nextToken(nextTokenIndexes[i] + theNextToken.chars.length, patternIndex);
+                    if(branchResult){
+                        return true;
                     }
-                } else {
-                    return callback(null, false);
                 }
+                return false;
             }
         } else {
-            callback(null, !_.isUndefined(subject[i]));
+            return !_.isUndefined(subject[subjectIndex]);
         }
     }
-    function checkExactChars(currentToken){
+    function checkExactChars(subjectIndex, patternIndex, currentToken){
         for(var j = 0 ; j < currentToken.chars.length ; j++){
-            if(currentToken.chars[j] !== subject[i++]){
-                return callback(null, false);
+            if(currentToken.chars[j] !== subject[subjectIndex++]){
+                return false;
             }
         }
 
-        nextToken();
+        return nextToken(subjectIndex, patternIndex);
     }
 
     buildPattern();
+}
+
+function getAllIndexesOfSubstring(origin, originFrom, substring){
+    var gotcha = 0;
+    var out = [];
+
+    for(var i = originFrom ; i < origin.length ; i++){
+        if(origin[i] === substring[gotcha]){
+            if(++gotcha === substring.length){
+                out.push(i + 1 - gotcha);
+                gotcha = 0;
+            }
+        } else {
+            gotcha = 0;
+            if(origin[i] === substring[gotcha]){
+                i--;
+            }
+        }
+    }
+
+    return out;
 }
