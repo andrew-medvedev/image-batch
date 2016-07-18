@@ -12,7 +12,7 @@ var app = require('../app/app.js');
 describe('Pattern matcher contract', function(){
     require('./patternMatcher-contract.js');
 });
-describe.skip('File resolver contract', function(){
+describe('File resolver contract', function(){
     require('./fileResolver-contract.js');
 });
 describe.skip('Directive builder contract', function(){

@@ -34,7 +34,11 @@ function match(subject, pattern, callback){
                         charsBuffer = '';
                     }
                     if(i > 0 && pattern[i - 1] === ANY_MANY_TOKEN){
-                        return callback(new Error('Cannot use % token beside of any other wildcard token'), false);
+                        if(callback){
+                            return callback(new Error('Cannot use % token beside of any other wildcard token'), false);
+                        } else {
+                            return { err: new Error('Cannot use % token beside of any other wildcard token'), match: false };
+                        }
                     } else {
                         patternBuilt.push({ type: PATTERN_TOKEN_TYPE_ANY_ONE });
                     }
@@ -46,7 +50,11 @@ function match(subject, pattern, callback){
                         charsBuffer = '';
                     }
                     if(i > 0 && pattern[i - 1] === ANY_MANY_TOKEN || pattern[i - 1] === ANY_ONE_TOKEN){
-                        return callback(new Error('Cannot use % token beside of any other wildcard token'), false);
+                        if(callback){
+                            return callback(new Error('Cannot use % token beside of any other wildcard token'), false);
+                        } else {
+                            return { err: new Error('Cannot use % token beside of any other wildcard token'), match: false };
+                        }
                     } else {
                         patternBuilt.push({ type: PATTERN_TOKEN_TYPE_ANY_MANY });
                     }
@@ -60,7 +68,11 @@ function match(subject, pattern, callback){
             patternBuilt.push({ type: PATTERN_TOKEN_TYPE_EXACT_CHARS, chars: charsBuffer });
         }
 
-        callback(null, nextToken(0, 0));
+        if(callback){
+            callback(null, nextToken(0, 0));
+        } else {
+            return { err: null, match: nextToken(0, 0) };
+        }
     }
     function nextToken(subjectIndex, patternIndex){
         var currentToken = patternBuilt[patternIndex++];
@@ -115,7 +127,7 @@ function match(subject, pattern, callback){
         return nextToken(subjectIndex, patternIndex);
     }
 
-    buildPattern();
+    return buildPattern();
 }
 
 function getAllIndexesOfSubstring(origin, originFrom, substring){

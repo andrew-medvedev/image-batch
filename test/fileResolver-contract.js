@@ -7,7 +7,7 @@
 var path = require('path'),
     expect = require('chai').expect;
 
-var fileResolver;
+var fileResolver = require('../app/fileResolver.js');
 
 describe('Listing files', function(){
     it('Should list only files with *.png format', function(done){
@@ -22,7 +22,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_formats',
+            basedir: './test/resources/different_formats',
             extension: { include: 'png' },
             callback: callbackFn
         });
@@ -44,7 +44,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_formats',
+            basedir: './test/resources/different_formats',
             extension: { include: 'jpg' },
             callback: callbackFn
         });
@@ -66,7 +66,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_formats',
+            basedir: './test/resources/different_formats',
             extension: { include: 'gif,bmp' },
             callback: callbackFn
         });
@@ -102,7 +102,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_formats',
+            basedir: './test/resources/different_formats',
             extension: { exclude: 'gif' },
             callback: callbackFn
         });
@@ -130,7 +130,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '%aaa%' },
             callback: callbackFn
         });
@@ -168,7 +168,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: '%aaa%' },
             callback: callbackFn
         });
@@ -196,7 +196,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '_aaa_' },
             callback: callbackFn
         });
@@ -235,7 +235,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: '_aaa_' },
             callback: callbackFn
         });
@@ -263,7 +263,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: 'a_a' },
             callback: callbackFn
         });
@@ -273,18 +273,20 @@ describe('Listing files', function(){
             expect(err).to.be.a('null');
             expect(files).to.be.ok;
             expect(files).to.be.an('array');
-            expect(files).to.have.lengthOf(8);
+            expect(files).to.have.lengthOf(10);
 
             var fileNames = [],
                 variants = [
                     '1aaa.jpg',
-                    '1aaa1.jpg',
                     '11aaa22.jpg',
+                    'aaa.jpg',
                     'aaa1.jpg',
                     'aaabbb.jpg',
                     'ab.jpg',
-                    'b.jpg',
-                    'abb.jpg'
+                    'aba.jpg',
+                    'abb.jpg',
+                    'aca.jpg',
+                    'b.jpg'
                 ];
 
             for(var i = 0 ; i < files.length ; i++){
@@ -300,7 +302,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: '_aaa_' },
             callback: callbackFn
         });
@@ -328,7 +330,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '%ab%' },
             callback: callbackFn
         });
@@ -367,7 +369,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: '%ab%' },
             callback: callbackFn
         });
@@ -395,7 +397,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '%a1' },
             callback: callbackFn
         });
@@ -433,7 +435,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: '%a1' },
             callback: callbackFn
         });
@@ -461,7 +463,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '1%' },
             callback: callbackFn
         });
@@ -498,7 +500,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: '1%' },
             callback: callbackFn
         });
@@ -526,7 +528,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '_b' },
             callback: callbackFn
         });
@@ -565,7 +567,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: '_b' },
             callback: callbackFn
         });
@@ -593,7 +595,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: 'a_' },
             callback: callbackFn
         });
@@ -632,7 +634,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: 'a_' },
             callback: callbackFn
         });
@@ -660,7 +662,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: 'a%b' },
             callback: callbackFn
         });
@@ -698,7 +700,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: 'a%b' },
             callback: callbackFn
         });
@@ -738,7 +740,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '%' },
             callback: callbackFn
         });
@@ -754,7 +756,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: '%' },
             callback: callbackFn
         });
@@ -782,7 +784,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '_' },
             callback: callbackFn
         });
@@ -821,7 +823,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { exclude: '_' },
             callback: callbackFn
         });
@@ -838,7 +840,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '%_' },
             callback: callbackFn
         });
@@ -855,7 +857,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '_%' },
             callback: callbackFn
         });
@@ -872,7 +874,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '%%' },
             callback: callbackFn
         });
@@ -889,7 +891,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '%%%' },
             callback: callbackFn
         });
@@ -906,7 +908,7 @@ describe('Listing files', function(){
         };
 
         fileResolver.list({
-            basedir: './resources/different_names',
+            basedir: './test/resources/different_names',
             name: { include: '_%_' },
             callback: callbackFn
         });
