@@ -6,7 +6,7 @@
 
 var expect = require('chai').expect;
 
-var directiveBuilder;
+var directiveBuilder = require('../app/directiveBuilder.js');
 
 describe('Building directives', function(){
     it('Should build resizing png files into new file with 50% of size and postfix "-medium"', function(done){
@@ -18,11 +18,9 @@ describe('Building directives', function(){
 
         expect(directiveObject).to.deep.equal({
             basedir: 'path/to/images',
-            ignoreDirs: '',
             extension: {
                 include: 'png'
             },
-            name: { },
             resize: '50%',
             postfix: 'medium',
             postfixDelimiter: '-',
@@ -39,11 +37,9 @@ describe('Building directives', function(){
 
         expect(directiveObject).to.deep.equal({
             basedir: 'path/to/images',
-            ignoreDirs: '',
             extension: {
                 include: 'png'
             },
-            name: { },
             resize: '50%',
             postfix: '',
             postfixDelimiter: '-',

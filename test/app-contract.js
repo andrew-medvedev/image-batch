@@ -15,7 +15,7 @@ describe('Pattern matcher contract', function(){
 describe('File resolver contract', function(){
     require('./fileResolver-contract.js');
 });
-describe.skip('Directive builder contract', function(){
+describe('Directive builder contract', function(){
     require('./directiveBuilder-contract.js');
 });
 describe.skip('Filename resolver contract', function(){
