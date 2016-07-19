@@ -18,7 +18,7 @@ describe('File resolver contract', function(){
 describe('Directive builder contract', function(){
     require('./directiveBuilder-contract.js');
 });
-describe.skip('Filename resolver contract', function(){
+describe('Filename resolver contract', function(){
     require('./filenameResolver-contract.js');
 });
 describe.skip('Doing job', function(){
