@@ -10,7 +10,7 @@ var STANDARD_POSTFIX_DELIMITER = '-';
 
 var _ = require('underscore');
 
-function DirectoryBuilder(basedir){
+function DirectoryBuilder(basedir, executorFn){
     var THAT = this,
         directiveObject = {
             basedir: basedir,
@@ -81,6 +81,9 @@ function DirectoryBuilder(basedir){
     };
     this.getDirectiveObject = function(){
         return directiveObject;
+    };
+    this.asCallback = function(callbackFn){
+        executorFn(THAT.getDirectiveObject(), callbackFn);
     };
 
     return this;
