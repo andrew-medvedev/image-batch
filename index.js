@@ -4,3 +4,6 @@
 
 'use strict';
 
+function parseArguments(){
+    
+}

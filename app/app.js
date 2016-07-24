@@ -117,6 +117,16 @@ function runDirective(directive, callback){
             callback(err, filename, fileObj);
         };
 
+        if(directive.postfix){
+            fileName = fileName.replace(path.extname(fileName), '') +
+                directive.postfixDelimiter +
+                directive.postfix +
+                path.extname(fileName);
+        }
+        if(directive.saveAsFormat){
+            fileName = fileName.replace(path.extname(fileName), '') + '.' + directive.saveAsFormat;
+        }
+
         filenameResolver(directive.basedir, fileName, callbackFn);
     }
 

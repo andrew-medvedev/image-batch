@@ -6,7 +6,8 @@
 
 module.exports = getBuilder;
 
-var STANDARD_POSTFIX_DELIMITER = '-';
+var STANDARD_POSTFIX_DELIMITER = '-',
+    DEFAULT_IMAGE_FORMATS = ['bmp', 'png', 'gif', 'jpg', 'jpeg'];
 
 var _ = require('underscore');
 
@@ -16,16 +17,19 @@ function DirectoryBuilder(basedir, executorFn){
             basedir: basedir,
             removeOriginal: false,
             postfix: '',
-            postfixDelimiter: STANDARD_POSTFIX_DELIMITER
+            postfixDelimiter: STANDARD_POSTFIX_DELIMITER,
+            extension: { include: DEFAULT_IMAGE_FORMATS }
         };
 
     this.onlyFormat = function(format){
-        directiveObject.extension = { include: format };
+        directiveObject.extension = _.extend(directiveObject.extension, { include: format });
 
         return THAT;
     };
     this.withoutFormat = function(format){
-        directiveObject.extension = { exclude: format };
+        directiveObject.extension.include = _.filter(directiveObject.extension.include, function(e){
+            return e !== format;
+        });
 
         return THAT;
     };
@@ -46,18 +50,17 @@ function DirectoryBuilder(basedir, executorFn){
     };
     this.formats = function(){
         var formats = getFlatArray(arguments);
-        if(formats.length === 1){
-            directiveObject.extension = { include: formats[0] };
-        } else if(formats.length > 1){
-            directiveObject.extension = { include: formats };
-        } else {
-            delete directiveObject.extension;
-        }
+        directiveObject.extension = _.extend(directiveObject.extension, { include: formats });
 
         return THAT;
     };
     this.resize = function(resizeQuery){
         directiveObject.resize = resizeQuery;
+
+        return THAT;
+    };
+    this.saveAs = function(saveAsFormat){
+        directiveObject.saveAsFormat = saveAsFormat;
 
         return THAT;
     };

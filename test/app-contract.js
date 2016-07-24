@@ -176,4 +176,109 @@ describe('Doing job', function(){
 
         fs.remove('./test/resources/job/ccc-1.png', callbackFn);
     });
+    it('Should do job with jpg\'s and png\'s and save as png', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        app.directive('./test/resources/job')
+            .formats('jpg', 'png')
+            .saveAs('png')
+            .resize('w500')
+            .asCallback(callbackFn);
+    });
+    it('bbb.png should have width of 500', function(done){
+        var callbackFn = function(err, image){
+            expect(err).to.be.a('null');
+            expect(image.bitmap.width).to.be.equal(500);
+
+            done();
+        };
+
+        jimp.read('./test/resources/job/bbb.png', callbackFn);
+    });
+    it('ccc-1.png should have width of 500', function(done){
+        var callbackFn = function(err, image){
+            expect(err).to.be.a('null');
+            expect(image.bitmap.width).to.be.equal(500);
+
+            done();
+        };
+
+        jimp.read('./test/resources/job/ccc-1.png', callbackFn);
+    });
+    it('Should delete file bbb.png', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        fs.remove('./test/resources/job/bbb.png', callbackFn);
+    });
+    it('Should delete file ccc-1.png', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        fs.remove('./test/resources/job/ccc-1.png', callbackFn);
+    });
+    it('Should do job with jpg\'s and png\'s and save as png with postfix \'postf\'', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        app.directive('./test/resources/job')
+            .formats('jpg', 'png')
+            .saveAs('png')
+            .resize('250x250')
+            .withPostfix('postf')
+            .asCallback(callbackFn);
+    });
+    it('bbb-postf.png should have size of 250x250', function(done){
+        var callbackFn = function(err, image){
+            expect(err).to.be.a('null');
+            expect(image.bitmap.width).to.be.equal(250);
+            expect(image.bitmap.height).to.be.equal(250);
+
+            done();
+        };
+
+        jimp.read('./test/resources/job/bbb-postf.png', callbackFn);
+    });
+    it('ccc-postf.png should have size of 250x250', function(done){
+        var callbackFn = function(err, image){
+            expect(err).to.be.a('null');
+            expect(image.bitmap.width).to.be.equal(250);
+            expect(image.bitmap.height).to.be.equal(250);
+
+            done();
+        };
+
+        jimp.read('./test/resources/job/ccc-postf.png', callbackFn);
+    });
+    it('Should delete file bbb-postf.png', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        fs.remove('./test/resources/job/bbb-postf.png', callbackFn);
+    });
+    it('Should delete file ccc-postf.png', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        fs.remove('./test/resources/job/ccc-postf.png', callbackFn);
+    });
 });
