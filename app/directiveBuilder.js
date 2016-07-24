@@ -61,11 +61,6 @@ function DirectoryBuilder(basedir, executorFn){
 
         return THAT;
     };
-    this.ignoreDirs = function(){
-        directiveObject.ignoreDirs = getFlatArray(arguments);
-
-        return THAT;
-    };
     this.includeFilename = function(filenameQuery){
         if(_.isArray(filenameQuery) && filenameQuery.length > 0){
             filenameQuery = filenameQuery[0];
@@ -89,8 +84,8 @@ function DirectoryBuilder(basedir, executorFn){
     return this;
 }
 
-function getBuilder(basedir){
-    return new DirectoryBuilder(basedir);
+function getBuilder(basedir, executorFn){
+    return new DirectoryBuilder(basedir, executorFn);
 }
 
 function getFlatArray(sourceArray){

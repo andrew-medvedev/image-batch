@@ -18,7 +18,12 @@ function list(argumentsObj) {
     function prepareArguments(){
         if(!_.isUndefined(argumentsObj['extension'])){
             if(!_.isUndefined(argumentsObj['extension']['include'])){
-                var _include = argumentsObj['extension']['include'].split(',');
+                var _include;
+                if(_.isArray(argumentsObj['extension']['include'])){
+                    _include = argumentsObj['extension']['include'];
+                } else {
+                    _include = argumentsObj['extension']['include'].split(',');
+                }
                 argumentsObj['extension']['include'] = {};
                 _.each(_include, function(e){
                     argumentsObj['extension']['include'][e] = true;
