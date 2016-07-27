@@ -12,7 +12,8 @@ var jimp = require('jimp'),
     _ = require('underscore'),
     async = require('async'),
     path = require('path'),
-    fs = require('fs-extra');
+    fs = require('fs-extra'),
+    log = require('winston');
 
 var directiveBuilder = require('./directiveBuilder.js'),
     fileResolver = require('./fileResolver.js'),
@@ -58,11 +59,21 @@ function runDirective(directive, callback){
                     resolveNewName(file, imageObject, cb);
                 });
                 waterfall.push(function(newImagePath, imageObject, cb){
-                    imageObject.write(newImagePath, cb);
+                    imageObject.write(newImagePath, function(err, img){
+                        if(!err){
+                            log.info(path.basename(file) + ' => ' + path.basename(newImagePath));
+                        }
+                        cb(err, img);
+                    });
                 });
                 waterfall.push(function(jimpImg, cb){
                     if(directive.removeOriginal){
-                        fs.remove(file, cb);
+                        fs.remove(file, function(err){
+                            if(!err){
+                                log.info(path.basename(file) + ' removed!');
+                            }
+                            cb(err);
+                        });
                     } else {
                         cb(null);
                     }
@@ -130,5 +141,9 @@ function runDirective(directive, callback){
         filenameResolver(directive.basedir, fileName, callbackFn);
     }
 
-    resolveFiles();
+    if(directive.resize){
+        resolveFiles();
+    } else {
+        callback(new Error('No resize query'), null)
+    }
 }
