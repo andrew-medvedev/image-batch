@@ -7,7 +7,7 @@
 var expect = require('chai').expect,
     _ = require('underscore');
 
-var directiveBuilder = require('./directiveBuilder.js');
+var directiveBuilder = require('../lib/app/directiveBuilder.js');
 
 describe('Building directives', function(){
     it('Should build resizing png files into new file with 50% of size and postfix "-medium"', function(done){

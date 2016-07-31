@@ -9,7 +9,7 @@ var expect = require('chai').expect,
     fs = require('fs-extra'),
     jimp = require('jimp');
 
-var app = require('./app.js');
+var app = require('../lib/app/app.js');
 
 describe('Pattern matcher contract', function(){
     require('./patternMatcher-contract.js');

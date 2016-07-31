@@ -7,7 +7,7 @@
 var path = require('path'),
     expect = require('chai').expect;
 
-var fileResolver = require('./fileResolver.js');
+var fileResolver = require('../lib/app/fileResolver.js');
 
 describe('Listing files', function(){
     it('Should list only files with *.png format', function(done){

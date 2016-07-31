@@ -6,7 +6,7 @@
 
 var expect = require('chai').expect;
 
-var patternMatcher = require('./patternMatcher.js');
+var patternMatcher = require('../lib/app/patternMatcher.js');
 
 describe('Utils', function(){
     it('Should getAllIndexesOfSubstring test 1', function(done){
