@@ -3,6 +3,9 @@
   "version": "0.0.2",
   "description": "Batch images resizing. [NO NATIVE DEPENDENCIES]",
   "main": "./lib/image-batch.js",
+  "engines": {
+    "node": ">=0.12"
+  },
   "scripts": {
     "test": "./node_modules/.bin/mocha --timeout 5000 ./test/app-contract.js"
   },
