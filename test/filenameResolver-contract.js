@@ -6,7 +6,7 @@
 
 var expect = require('chai').expect;
 
-var filenameResolver = require('../app/filenameResolver.js');
+var filenameResolver = require('./filenameResolver.js');
 
 describe('Resolving filename conflicts', function(){
     it('Should get filename for "aaa.jpg" file', function(done){

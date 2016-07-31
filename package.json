@@ -1,16 +1,29 @@
 {
-  "name": "recursive-resize",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "name": "image-batch",
+  "version": "0.0.2",
+  "description": "Batch images resizing. [NO NATIVE DEPENDENCIES]",
+  "main": "./lib/image-batch.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha --timeout 5000 ./test/app-contract.js"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:andrew-medvedev/image-batch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andrew-medvedev/image-batch/issues"
+  },
+  "bin":{
+    "image-batch": "./bin/image-batch"
+  },
+  "author": "Andrew Medvedev <andrew.medvedev.nh@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "image",
+    "image-processing"
+  ],
   "dependencies": {
     "async": "^2.0.0-rc.6",
-    "commander": "^2.9.0",
     "fs-extra": "^0.30.0",
     "jimp": "^0.2.24",
     "recursive-readdir": "^2.0.0",
