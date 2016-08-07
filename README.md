@@ -1,5 +1,5 @@
 # Batch images resizing [NO NATIVE DEPENDENCIES NEEDED]
-[![Build Status](https://travis-ci.org/andrew-medvedev/image-sausage.svg?branch=master)](https://travis-ci.org/andrew-medvedev/image-sausage)
+[![Build Status](https://travis-ci.org/andrew-medvedev/image-batch.svg?branch=master)](https://travis-ci.org/andrew-medvedev/image-batch)
 
 Easy module for resizing of large amount of images
 
