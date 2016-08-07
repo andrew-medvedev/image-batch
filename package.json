@@ -1,6 +1,6 @@
 {
   "name": "image-batch",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Batch images resizing. [NO NATIVE DEPENDENCIES]",
   "main": "./lib/image-batch.js",
   "engines": {
@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/andrew-medvedev/image-batch/issues"
   },
-  "bin":{
+  "bin": {
     "image-batch": "./bin/image-batch"
   },
   "author": "Andrew Medvedev <andrew.medvedev.nh@gmail.com>",
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "stable": "^0.1.5"
   }
 }

@@ -6,8 +6,12 @@
 
 var expect = require('chai').expect,
     async = require('async'),
+    _ = require('underscore'),
+    path = require('path'),
     fs = require('fs-extra'),
-    jimp = require('jimp');
+    jimp = require('jimp'),
+    stableSort = require('stable'),
+    imageBatch = require('../lib/image-batch.js');
 
 var app = require('../lib/app/app.js');
 
@@ -281,4 +285,215 @@ describe('Doing job', function(){
 
         fs.remove('./test/resources/job/ccc-postf.png', callbackFn);
     });
+});
+describe('Doing job 2', function(){
+    it('Should copy all source images for second job', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        async.parallel([
+            function(cb){
+                fs.copy(
+                    './test/resources/job2/sourceImages/galaxy-note-4-psd-mockup.png',
+                    './test/resources/job2/galaxy-note-4-psd-mockup.png',
+                    cb
+                );
+            },
+            function(cb){
+                fs.copy(
+                    './test/resources/job2/sourceImages/iphone_mockup.jpg',
+                    './test/resources/job2/iphone_mockup.jpg',
+                    cb
+                );
+            },
+            function(cb){
+                fs.copy(
+                    './test/resources/job2/sourceImages/iphone_6.png',
+                    './test/resources/job2/iphone_6.png',
+                    cb
+                );
+            },
+            function(cb){
+                fs.copy(
+                    './test/resources/job2/sourceImages/iphone_6_gold.jpg',
+                    './test/resources/job2/iphone_6_gold.jpg',
+                    cb
+                );
+            },
+            function(cb){
+                fs.copy(
+                    './test/resources/job2/sourceImages/mockup_htc_8.png',
+                    './test/resources/job2/mockup_htc_8.png',
+                    cb
+                );
+            }
+        ], callbackFn);
+    });
+    it('Should produce large iphones', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+        
+        imageBatch.doJobWithArguments([
+            'node arg',
+            'cwd arg',
+            '--directory',
+            path.join(process.cwd(), 'test/resources/job2'),
+            '--name',
+            'iphone%',
+            '--resize',
+            '100%',
+            '--save-as',
+            'png',
+            '--postfix',
+            'l'
+        ], callbackFn);
+    });
+    it('Should check directory listing', function(done){
+        var callbackFn = function(err, files){
+            expect(err).to.be.a('null');
+
+            var _expectedFiles = [
+                'iphone_6.png',
+                'iphone_6_gold.jpg',
+                'iphone_mockup.jpg',
+                'iphone_6-l.png',
+                'iphone_6_gold-l.png',
+                'iphone_mockup-l.png',
+                'mockup_htc_8.png',
+                'galaxy-note-4-psd-mockup.png'
+            ];
+
+            expect(stableSort(_.without(files, 'sourceImages'))).to.deep.equal(stableSort(_expectedFiles));
+
+            done();
+        };
+
+        fs.readdir('./test/resources/job2', callbackFn);
+    });
+    it('Should produce medium iphones', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        imageBatch.doJobWithArguments([
+            'node arg',
+            'cwd arg',
+            '--directory',
+            path.join(process.cwd(), 'test/resources/job2'),
+            '--name',
+            'iphone%',
+            '--no-name',
+            'iphone%-l',
+            '--resize',
+            '50%',
+            '--save-as',
+            'png',
+            '--postfix',
+            'm'
+        ], callbackFn);
+    });
+    it('Should check directory listing', function(done){
+        var callbackFn = function(err, files){
+            expect(err).to.be.a('null');
+
+            var _expectedFiles = [
+                'iphone_6.png',
+                'iphone_6_gold.jpg',
+                'iphone_mockup.jpg',
+                'iphone_6-l.png',
+                'iphone_6_gold-l.png',
+                'iphone_mockup-l.png',
+                'iphone_6-m.png',
+                'iphone_6_gold-m.png',
+                'iphone_mockup-m.png',
+                'mockup_htc_8.png',
+                'galaxy-note-4-psd-mockup.png'
+            ];
+
+            expect(stableSort(_.without(files, 'sourceImages'))).to.deep.equal(stableSort(_expectedFiles));
+
+            done();
+        };
+
+        fs.readdir('./test/resources/job2', callbackFn);
+    });
+    it('Should produce small iphones', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        imageBatch.doJobWithArguments([
+            'node arg',
+            'cwd arg',
+            '--directory',
+            path.join(process.cwd(), 'test/resources/job2'),
+            '--name',
+            'iphone%',
+            '--no-name',
+            'iphone%-l,iphone%-m',
+            '--resize',
+            '25%',
+            '--save-as',
+            'png',
+            '--postfix',
+            's',
+            '--remove-original'
+        ], callbackFn);
+    });
+    it('Should check directory listing', function(done){
+        var callbackFn = function(err, files){
+            expect(err).to.be.a('null');
+
+            var _expectedFiles = [
+                'iphone_6-l.png',
+                'iphone_6_gold-l.png',
+                'iphone_mockup-l.png',
+                'iphone_6-m.png',
+                'iphone_6_gold-m.png',
+                'iphone_mockup-m.png',
+                'iphone_6-s.png',
+                'iphone_6_gold-s.png',
+                'iphone_mockup-s.png',
+                'mockup_htc_8.png',
+                'galaxy-note-4-psd-mockup.png'
+            ];
+
+            expect(stableSort(_.without(files, 'sourceImages'))).to.deep.equal(stableSort(_expectedFiles));
+
+            done();
+        };
+
+        fs.readdir('./test/resources/job2', callbackFn);
+    });
+    it('Should remove second job files', function(done){
+        var callbackFn = function(err){
+            expect(err).to.be.a('null');
+
+            done();
+        };
+
+        async.parallel([
+            function(cb){ fs.remove('./test/resources/job2/iphone_6-l.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/iphone_6_gold-l.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/iphone_mockup-l.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/iphone_6-m.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/iphone_6_gold-m.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/iphone_mockup-m.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/iphone_6-s.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/iphone_6_gold-s.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/iphone_mockup-s.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/mockup_htc_8.png', cb); },
+            function(cb){ fs.remove('./test/resources/job2/galaxy-note-4-psd-mockup.png', cb); }
+        ], callbackFn);
+    })
 });
