@@ -1,6 +1,6 @@
 {
   "name": "image-batch",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Batch images resizing. [NO NATIVE DEPENDENCIES]",
   "main": "./lib/image-batch.js",
   "engines": {
